@@ -14,3 +14,5 @@ use Illuminate\Support\Facades\Route;
 // }   );
 
 Route::apiResource('user',UserController::class);
+// 
+Route::post('/user/{user}', [UserController::class, 'update']);

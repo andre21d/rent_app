@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -33,6 +34,32 @@ class UserController extends Controller
             'email' => 'nullable|email|unique:users,email,' . $user->id,
             'password' => 'sometimes|string|min:8'
         ]);
+
+        if ($request->hasFile('personal_photo')) {
+
+            if ($user->personal_photo) {
+                Storage::disk('public')->delete("personal_photos/$user->personal_photo");
+                }
+        
+            $file = $request->file('personal_photo');
+            $filename = "user_{$user->id}_" . time() . "." . $file->extension();
+            $file->storeAs("personal_photos", $filename, "public");
+        
+            $fields['personal_photo'] = $filename;
+        }
+
+        if ($request->hasFile('id_photo')) {
+
+            if ($user->id_photo) {
+                Storage::disk('public')->delete("id_photos/$user->id_photo");
+                }
+        
+            $file = $request->file('id_photo');
+            $filename = "user_{$user->id}_" . time() . "." . $file->extension();
+            $file->storeAs("id_photos", $filename, "public");
+        
+            $fields['id_photo'] = $filename;
+        }
 
         if (isset($fields['password'])) {
             $fields['password'] = Hash::make($fields['password']);
