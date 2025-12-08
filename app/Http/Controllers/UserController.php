@@ -61,10 +61,6 @@ class UserController extends Controller
             $fields['id_photo'] = $filename;
         }
 
-        if (isset($fields['password'])) {
-            $fields['password'] = Hash::make($fields['password']);
-        }
-
         $user->update($fields);
     
         return $user;
