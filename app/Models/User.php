@@ -50,6 +50,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Apartment::class, 'owner_id');
     }
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'user_id');
+    }
     
     protected function casts(): array
     {

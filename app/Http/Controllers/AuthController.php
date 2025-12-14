@@ -22,6 +22,8 @@ class AuthController extends Controller
             'password' => 'required|string|min:8'
         ]);
 
+        //create the user in the database
+
         $user = User::create([
             'first_name' => $fields['first_name'],
             'last_name' => $fields['last_name'],
@@ -30,6 +32,8 @@ class AuthController extends Controller
             'email' => $fields['email'] ?? null,
             'password' => $fields['password'],
         ]);
+
+        //add the user's photos to database by update it
 
         $file = $request->file('personal_photo');
         $filename = "user_{$user->id}_" . time() . "." . $file->extension();
@@ -62,6 +66,8 @@ class AuthController extends Controller
                 'email' => 'nullable|email|exists:users',
                 'password' => 'required|string|min:8'
             ]);
+            
+            //search if the email is exist and the password is correct
             
             $user=User::where('email',$request->email)->first();
             

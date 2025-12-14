@@ -35,6 +35,9 @@ class UserController extends Controller
             'password' => 'sometimes|string|min:8'
         ]);
 
+        // store the user's photos in a specific folder (app/public/...)
+        // and save their(photos) names in user record at the database
+
         if ($request->hasFile('personal_photo')) {
 
             if ($user->personal_photo) {
